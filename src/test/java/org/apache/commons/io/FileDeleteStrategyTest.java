@@ -50,16 +50,37 @@ public class FileDeleteStrategyTest {
                     + " as the parent directory does not exist");
         }
         try (BufferedOutputStream output =
-                new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
             TestUtils.generateTestData(output, 16);
         }
 
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
+
         // delete dir
         FileDeleteStrategy.FORCE.delete(subDir);
         assertFalse(subDir.exists());
         assertFalse(subFile.exists());
+    }
+
+    @Test // testDeleteForce: Duplicate Assertion refactored
+    public void testDeleteForceNoError() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
+        assertTrue(subDir.exists());
+        assertTrue(subFile.exists());
+
         // delete dir
         FileDeleteStrategy.FORCE.delete(subDir);  // no error
         assertFalse(subDir.exists());
@@ -76,23 +97,99 @@ public class FileDeleteStrategyTest {
                     + " as the parent directory does not exist");
         }
         try (BufferedOutputStream output =
-                new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
             TestUtils.generateTestData(output, 16);
         }
 
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
+
+        // delete dir
+        FileDeleteStrategy.NORMAL.delete(subDir);
+        assertFalse(subDir.exists());
+
+    }
+
+    @Test // testDeleteNormal: Duplicate Assertion refactored
+    public void testDeleteNormal1() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete dir
         assertThrows(IOException.class, () -> FileDeleteStrategy.NORMAL.delete(subDir));
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
+
+    }
+
+    @Test // testDeleteNormal: Duplicate Assertion refactored
+    public void testDeleteNormal2() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete file
         FileDeleteStrategy.NORMAL.delete(subFile);
         assertTrue(subDir.exists());
         assertFalse(subFile.exists());
+
+    }
+
+    @Test // testDeleteNormal: Duplicate Assertion refactored
+    public void testDeleteNormal3() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete dir
         FileDeleteStrategy.NORMAL.delete(subDir);
         assertFalse(subDir.exists());
+
+    }
+
+    @Test // testDeleteNormal: Duplicate Assertion refactored
+    public void testDeleteNormal4() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete dir
         FileDeleteStrategy.NORMAL.delete(subDir);  // no error
         assertFalse(subDir.exists());
@@ -115,20 +212,69 @@ public class FileDeleteStrategyTest {
                     + " as the parent directory does not exist");
         }
         try (BufferedOutputStream output =
-                new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
             TestUtils.generateTestData(output, 16);
         }
 
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
+
+        // delete dir
+        assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));
+        assertFalse(subDir.exists());
+        // delete dir
+        assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));  // no error
+        assertFalse(subDir.exists());
+    }
+
+    @Test
+    public void testDeleteQuietlyNormal1() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete dir
         assertFalse(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
+
+        // delete dir
+        assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));
+        assertFalse(subDir.exists());
+        // delete dir
+        assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));  // no error
+        assertFalse(subDir.exists());
+    }
+
+    @Test
+    public void testDeleteQuietlyNormal2() throws Exception {
+        final File baseDir = temporaryFolder;
+        final File subDir = new File(baseDir, "test");
+        assertTrue(subDir.mkdir());
+        final File subFile = new File(subDir, "a.txt");
+        if (!subFile.getParentFile().exists()) {
+            throw new IOException("Cannot create file " + subFile
+                    + " as the parent directory does not exist");
+        }
+        try (BufferedOutputStream output =
+                     new BufferedOutputStream(Files.newOutputStream(subFile.toPath()))) {
+            TestUtils.generateTestData(output, 16);
+        }
+
         // delete file
         assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subFile));
         assertTrue(subDir.exists());
         assertFalse(subFile.exists());
+
         // delete dir
         assertTrue(FileDeleteStrategy.NORMAL.deleteQuietly(subDir));
         assertFalse(subDir.exists());

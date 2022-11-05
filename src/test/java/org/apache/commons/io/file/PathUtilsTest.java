@@ -127,12 +127,12 @@ public class PathUtilsTest extends AbstractTempDirTest {
             // relative jar -> absolute dir
             Path sourceDir = archive.getPath("dir1");
             PathUtils.copyDirectory(sourceDir, tempDirPath);
-            assertTrue(Files.exists(tempDirPath.resolve("f1")));
+            assertTrue(Files.exists(tempDirPath.resolve("f1")), "verifica se existe o f1");
 
             // absolute jar -> absolute dir
             sourceDir = archive.getPath("/next");
             PathUtils.copyDirectory(sourceDir, tempDirPath);
-            assertTrue(Files.exists(tempDirPath.resolve("dir")));
+            assertTrue(Files.exists(tempDirPath.resolve("dir")), "verifica se existe o dir");
         }
     }
 
@@ -144,12 +144,12 @@ public class PathUtilsTest extends AbstractTempDirTest {
             Files.createDirectory(targetDir);
             final Path sourceDir = Paths.get("src/test/resources/org/apache/commons/io/dirs-2-file-size-2").toAbsolutePath();
             PathUtils.copyDirectory(sourceDir, targetDir);
-            assertTrue(Files.exists(targetDir.resolve("dirs-a-file-size-1")));
+            assertTrue(Files.exists(targetDir.resolve("dirs-a-file-size-1")), "verifica se existe dirs-a-file-size-1");
 
             // absolute dir -> absolute jar
             targetDir = archive.getPath("/");
             PathUtils.copyDirectory(sourceDir, targetDir);
-            assertTrue(Files.exists(targetDir.resolve("dirs-a-file-size-1")));
+            assertTrue(Files.exists(targetDir.resolve("dirs-a-file-size-1")), "verifica se existe dirs-a-file-size-1");
         }
     }
 
@@ -162,7 +162,7 @@ public class PathUtilsTest extends AbstractTempDirTest {
             // relative jar -> relative dir
             Path sourceDir = archive.getPath("next");
             PathUtils.copyDirectory(sourceDir, targetDir);
-            assertTrue(Files.exists(targetDir.resolve("dir")));
+            assertTrue(Files.exists(targetDir.resolve("dir")), "verifica se existe dir ");
 
             // absolute jar -> relative dir
             sourceDir = archive.getPath("/dir1");
