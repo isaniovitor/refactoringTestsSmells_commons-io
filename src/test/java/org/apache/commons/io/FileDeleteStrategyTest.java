@@ -104,10 +104,6 @@ public class FileDeleteStrategyTest {
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
 
-        // delete dir
-        FileDeleteStrategy.NORMAL.delete(subDir);
-        assertFalse(subDir.exists());
-
     }
 
     @Test // testDeleteNormal: Duplicate Assertion refactored
@@ -129,7 +125,6 @@ public class FileDeleteStrategyTest {
         assertThrows(IOException.class, () -> FileDeleteStrategy.NORMAL.delete(subDir));
         assertTrue(subDir.exists());
         assertTrue(subFile.exists());
-
     }
 
     @Test // testDeleteNormal: Duplicate Assertion refactored
@@ -151,7 +146,6 @@ public class FileDeleteStrategyTest {
         FileDeleteStrategy.NORMAL.delete(subFile);
         assertTrue(subDir.exists());
         assertFalse(subFile.exists());
-
     }
 
     @Test // testDeleteNormal: Duplicate Assertion refactored
@@ -170,9 +164,9 @@ public class FileDeleteStrategyTest {
         }
 
         // delete dir
+        FileDeleteStrategy.NORMAL.delete(subFile);
         FileDeleteStrategy.NORMAL.delete(subDir);
         assertFalse(subDir.exists());
-
     }
 
     @Test // testDeleteNormal: Duplicate Assertion refactored
@@ -191,6 +185,7 @@ public class FileDeleteStrategyTest {
         }
 
         // delete dir
+        FileDeleteStrategy.NORMAL.delete(subFile);
         FileDeleteStrategy.NORMAL.delete(subDir);  // no error
         assertFalse(subDir.exists());
     }
